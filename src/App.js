@@ -1,19 +1,54 @@
 import { useState } from "react";
+import { CourseCard } from "./components/CourseCard";
+import {PopUp} from "./components/Popup";
+
 
 function App() {
-  const grade = ["A", "B+", "B", "C+", "C", "D+", "D", "F", "W"];
-  const credit = [1, 2, 3];
+  // const grade = ["A", "B+", "B", "C+", "C", "D+", "D", "F", "W"];
+  // const credit = [1, 2, 3];
 
   const [myCourses, setMyCourse] = useState([]);
   const [inputData, setInputData] = useState({});
   const [GPA, setGPA] = useState(4.0);
+  const [popupShow,setpopup]=useState(false);
+  
+ 
 
   /**
    * Calculate the GPA of current courses
    * @returns the GPA of current courses
-   */
+   */ 
   function calculateGPA() {
     // TODO
+   
+    let sumcredit=+0;
+    let gradexcredit=+0;
+    let gpax;
+
+    for(let i=0 ; i<myCourses.length;i++){
+
+      if(myCourses[i].grade!=="w"){
+
+        sumcredit+=+myCourses[i].credit;
+        gradexcredit+=((myCourses[i].credit)*(myCourses[i].grade));
+
+        console.log("credit"+myCourses[i].credit);
+        console.log("grade"+myCourses[i].grade);
+        
+      }
+
+        
+
+    }
+    console.log("grade*credit :"+gradexcredit);
+    console.log("sumcredit :"+sumcredit);
+    gpax=gradexcredit/sumcredit;
+    
+    if(!gpax){
+      return "Grade";
+    }
+    return gpax.toFixed(2);
+
   }
 
   /**
@@ -21,13 +56,19 @@ function App() {
    * After adding the course to the list, the displayed GPA should be updated.
    * @param {*} event 
    */
-  function addCourse(event) {
-    event.preventDefault();
-    // TODO
+  function addCourse(inputData) {
 
-    // recalculate GPA
-    calculateGPA();
+   //if(inputData){}
+
+    setpopup(false);
+    //   // TODO
+    //   // recalculate GPA
+    setMyCourse([...myCourses,inputData]);
+    
+    // 
+
   }
+
 
   /**
    * Should be called when a course is to be removed from the list.
@@ -35,21 +76,44 @@ function App() {
    * @param {*} id 
    */
   function onDeleteCourse(id) {
-    // TODO
+    
+    //   // TODO
+    //   // recalculate GPA
+    const deletecourse= myCourses.filter((course,i)=>course.courseNO!==id);
+      setMyCourse(deletecourse);
   }
 
   return (
-    <div className="container mx-auto h-screen">
-      <h1 className="text-center text-4xl p-3 tracking-widest">
-        GPA CALCULATOR
-      </h1>
-      <div className="h-2/3 md:w-2/4 p-3 rounded-lg mx-auto overflow-auto">
-        <h1 className="text-2xl my-3">My courses</h1>
-        {/* TODO display courses */}
+    <div >
+      {/* header */}
+      <header className="header" >
+        Grade Calculator
+      </header>
+      {/* content */}
+
+      {popupShow ? <PopUp addCourse={addCourse}/>:""}
+    
+     {myCourses.map((course,i)=><CourseCard key={i}{...course} setMyCourse={onDeleteCourse}/>
+      
+     )}
+
+      <div className="contentt">
+        <div className="grade">
+          <h1>{calculateGPA()}</h1>
+        </div>
+
+        <div className="Add" onClick={()=>setpopup(true)}>
+          <h1>+</h1>
+        </div>
+
       </div>
-      {/* TODO add course input form */}
-      {/* TODO display calculated GPA */}
+
+      
+  
+  
+
     </div>
+
   );
 }
 

@@ -49,6 +49,11 @@ export const PopUp = (props) => {
          
           <div className="AddCourse" onClick={()=>
             
+            inputData.courseNO==0 ? alert("Please input COURSE NO :"):
+            inputData.title==0 ? alert("Please input TITLE :"):
+            inputData.grade==0 ? alert("Please input GRADE :"):
+            inputData.credit==0 ? alert("Please input CREDIT :"):
+
             props.addCourse(inputData)}>
             ADD COURSE
       </div>

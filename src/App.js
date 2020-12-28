@@ -91,6 +91,8 @@ function App() {
       </header>
       {/* content */}
 
+      <div className="container">
+
       {popupShow ? <PopUp addCourse={addCourse}/>:""}
     
      {myCourses.map((course,i)=><CourseCard key={i}{...course} setMyCourse={onDeleteCourse}/>
@@ -108,7 +110,7 @@ function App() {
 
       </div>
 
-      
+      </div>
   
   
 
